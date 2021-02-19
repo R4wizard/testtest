@@ -1,0 +1,116 @@
+---
+openapi: 3.0.2
+info:
+  title: Test
+  version: 1.0.0
+  description: test
+servers:
+- url: api.plot.watch
+  description: Production
+paths:
+  /tests:
+    summary: Path used to manage the list of tests.
+    description: "The REST endpoint/path used to list and create zero or more `Test`\
+      \ entities.  This path contains a `GET` and `POST` operation to perform the\
+      \ list and create tasks, respectively."
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Test'
+          description: Successful response - returns an array of `Test` entities.
+      security:
+      - API-Key: []
+      operationId: getTests
+      summary: List All Tests
+      description: Gets a list of all `Test` entities.
+    post:
+      requestBody:
+        description: A new `Test` to be created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Test'
+        required: true
+      responses:
+        "201":
+          description: Successful response.
+      security:
+      - API-Key: []
+      operationId: createTest
+      summary: Create a Test
+      description: Creates a new instance of a `Test`.
+  /tests/{testId}:
+    summary: Path used to manage a single Test.
+    description: "The REST endpoint/path used to get, update, and delete single instances\
+      \ of an `Test`.  This path contains `GET`, `PUT`, and `DELETE` operations used\
+      \ to perform the get, update, and delete tasks, respectively."
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Test'
+          description: Successful response - returns a single `Test`.
+      security:
+      - API-Key: []
+      operationId: getTest
+      summary: Get a Test
+      description: Gets the details of a single instance of a `Test`.
+    put:
+      requestBody:
+        description: Updated `Test` information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Test'
+        required: true
+      responses:
+        "202":
+          description: Successful response.
+      security:
+      - API-Key: []
+      operationId: updateTest
+      summary: Update a Test
+      description: Updates an existing `Test`.
+    delete:
+      responses:
+        "204":
+          description: Successful response.
+      security:
+      - API-Key: []
+      operationId: deleteTest
+      summary: Delete a Test
+      description: Deletes an existing `Test`.
+    parameters:
+    - name: testId
+      description: A unique identifier for a `Test`.
+      schema:
+        type: string
+      in: path
+      required: true
+components:
+  schemas:
+    Test:
+      title: Root Type for Test
+      description: ""
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        title:
+          type: string
+      example:
+        id: 1
+        title: Unnamed test
+  securitySchemes:
+    API-Key:
+      type: apiKey
+      name: x-api-key
+      in: header
